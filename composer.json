@@ -1,0 +1,19 @@
+{
+    "name": "simonwillan/phpCX",
+    "description": "phpCX",
+    "require": {
+        "guzzlehttp/guzzle": "~6.0",
+        "symfony/yaml": "^4.2"
+    },
+    "authors": [
+        {
+            "name": "Simon Willan",
+            "email": "swillan@gonetcoins.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PhpCX\\": "lib/"
+        }
+    }
+}

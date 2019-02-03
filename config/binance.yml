@@ -1,0 +1,14 @@
+binance:
+  host: 'https://api.binance.com/api'
+  version: ''
+  symbol:
+    case: 'upper'
+    delim: ''
+  api:
+    public:
+      ticker: ['v3/ticker/price', 'symbol']
+      book: ['v1/depth', 'symbol', 'limit']
+    private:
+      balance: ''
+      marketbuy: ''
+      marketsell: ''
