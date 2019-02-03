@@ -7,8 +7,10 @@ function dd() {
 
 require_once 'vendor/autoload.php';
 
-$binance = new PhpCX\Exchange('binance');
+$exchange = new PhpCX\Exchange('binance');
 
-$out = $binance->book('ETHBTC', 5);
+$out = $exchange->trades('ETHBTC', 5);
+
+//'ETHBTC', null, 1549234207925, 1549234207925, 2
 
 print_r($out);

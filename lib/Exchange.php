@@ -83,8 +83,6 @@ class Exchange
         return sprintf('%s/', $this->definition['host']);
     }
 
-
-
     /**
      * Query the loaded api.
      *
@@ -92,6 +90,7 @@ class Exchange
      */
     protected function query($endpoint, $params)
     {
+        //dd($params);
         try {
             $http = new Guzzle(['base_uri' => $this->host()]);
             $response = $http->get($endpoint, ['query' => $params]);
@@ -133,7 +132,6 @@ class Exchange
         $params = array_intersect_key($params, $args);
         $args = array_intersect_key($args, $params);
         $params = array_combine($params, $args);
-
 
         return $this->query($endpoint, $params);
     }

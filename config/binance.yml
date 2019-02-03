@@ -1,14 +1,16 @@
 binance:
   host: 'https://api.binance.com/api'
   version: ''
-  symbol:
-    case: 'upper'
-    delim: ''
   api:
     public:
-      ticker: ['v3/ticker/price', 'symbol']
+      agg: ['v1/aggTrades', 'symbol', 'fromId', 'startTime', 'endTime', 'limit']
+      avg: ['v3/avgPrice', 'symbol']
       book: ['v1/depth', 'symbol', 'limit']
-    private:
-      balance: ''
-      marketbuy: ''
-      marketsell: ''
+      bookTicker: ['v3/ticker/bookTicker', 'symbol']
+      info: ['v1/exchangeInfo']
+      klines: ['v1/klines', 'symbol', 'interval', 'startTime', 'endTime', 'limit']
+      ping: ['v1/ping']
+      ticker: ['v3/ticker/price', 'symbol']
+      ticker24: ['v1/ticker/24hr', 'symbol']
+      time: ['v1/time']
+      trades: ['v1/trades', 'symbol', 'limit']
