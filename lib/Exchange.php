@@ -113,11 +113,8 @@ class Exchange
         // return cached if it exists.
         $content = $this->cache($cachekey);
         if ($content) {
-            var_dump('cached');
             return $content;
         }
-
-        var_dump('warming');
 
         // create a path string from params array
         $path = implode('/', $params['path']);
