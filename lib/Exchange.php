@@ -2,16 +2,26 @@
 namespace PhpCX;
 
 use PhpCX\Tools\Loader;
+use PhpCX\Traits\CacheTrait;
 use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Exception\ClientException;
+use Symfony\Component\Cache\Adapter\AdapterInterface as CacheInterface;
 
 class Exchange
 {
+    use CacheTrait;
+
     /**
-     * Name of config
+     * Name of config.
      * @var string
      */
     protected $name;
+
+    /**
+     * Content cache dependency.
+     * @var CacheInterface
+     */
+    protected $cache;
 
     /**
      * Yaml config data.
@@ -40,9 +50,12 @@ class Exchange
 
     /**
      * @param string $name Name of config file.
+     * @param CacheInterface $cache [optional]
      */
-    public function __construct($name) {
+    public function __construct($name, CacheInterface $cache = null) {
         $this->name = $name;
+        $this->cache = $this->setCache($cache);
+
         $this->definition = (Loader::yaml($name))[$name];
         $this->methods = $this->define(static::apiboth);
     }
@@ -95,7 +108,18 @@ class Exchange
     protected function query($endpoint, $params)
     {
         $params = $this->params($params);
+        $cachekey = str_replace('/', '.', "$this->name.$endpoint");
 
+        // return cached if it exists.
+        $content = $this->cache($cachekey);
+        if ($content) {
+            var_dump('cached');
+            return $content;
+        }
+
+        var_dump('warming');
+
+        // create a path string from params array
         $path = implode('/', $params['path']);
         if ($path) {
             $path = "/$path";
@@ -103,16 +127,19 @@ class Exchange
 
         try {
             $http = new Guzzle(['base_uri' => $this->host()]);
-            $response = $http->get("$endpoint$path", ['query' => $params['query']]);
+            $response = $http->get($endpoint.$path, ['query' => $params['query']]);
         } catch( ClientException $e) {
             return $e->getMessage();
         }
 
-        return (string) $response->getBody();
+        $content = (string) $response->getBody();
+        $this->cache($cachekey, $content);
+
+        return $content;
     }
 
     /**
-     * Breaks down incoming params into an organised array of slugs/query
+     * Breaks down incoming params into an organised array of slugs/query.
      */
     protected function params($params)
     {

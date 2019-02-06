@@ -7,8 +7,10 @@ function dd() {
 
 require_once 'vendor/autoload.php';
 
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+
 $exchange = new PhpCX\Exchange('binance');
 
-$out = $exchange->ticker('ETHBTC');
+$out = $exchange->klines('ETHBTC', '1d');
 
 print_r($out);
