@@ -80,7 +80,7 @@ class Exchange
      */
     private function host()
     {
-        if (isset($this->definition['version'])) {
+        if (!empty($this->definition['version'])) {
             return sprintf('%s/%s/', $this->definition['host'], $this->definition['version']);
         }
 
@@ -95,11 +95,15 @@ class Exchange
     protected function query($endpoint, $params)
     {
         $params = $this->params($params);
+
         $path = implode('/', $params['path']);
+        if ($path) {
+            $path = "/$path";
+        }
 
         try {
             $http = new Guzzle(['base_uri' => $this->host()]);
-            $response = $http->get("$endpoint/$path", ['query' => $params['query']]);
+            $response = $http->get("$endpoint$path", ['query' => $params['query']]);
         } catch( ClientException $e) {
             return $e->getMessage();
         }

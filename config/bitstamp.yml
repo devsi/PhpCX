@@ -9,6 +9,7 @@ bitstamp:
       bookTicker: []
       info: ['trading-pairs-info']
       klines: []
+      list: []
       ping: []
       ticker: ['ticker', '#currencypair']
       ticker24: ['ticker_hour', '#currencypair']

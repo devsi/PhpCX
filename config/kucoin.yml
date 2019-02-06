@@ -1,0 +1,17 @@
+kucoin:
+  host: 'https://api.kucoin.com'
+  version: 'v1'
+  api:
+    public:
+      agg: []
+      avg: []
+      book: ['open/orders', 'symbol', 'group', 'limit', 'direction']
+      bookTicker: []
+      info: ['market/open/coin-info', 'coin']
+      klines: ['open/chart/history', 'symbol', 'resolution', 'from', 'to']
+      list: ['open/coins']
+      ping: []
+      ticker: ['open/tick', 'symbol']
+      ticker24: []
+      time: []
+      trades: []

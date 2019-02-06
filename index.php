@@ -7,8 +7,8 @@ function dd() {
 
 require_once 'vendor/autoload.php';
 
-$exchange = new PhpCX\Exchange('bitstamp');
+$exchange = new PhpCX\Exchange('binance');
 
-$out = $exchange->trades('btcusd', 'day');
+$out = $exchange->ticker('ETHBTC');
 
 print_r($out);

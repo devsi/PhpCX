@@ -1,6 +1,5 @@
 binance:
   host: 'https://api.binance.com/api'
-  version: ''
   api:
     public:
       agg: ['v1/aggTrades', 'symbol', 'fromId', 'startTime', 'endTime', 'limit']
@@ -9,6 +8,7 @@ binance:
       bookTicker: ['v3/ticker/bookTicker', 'symbol']
       info: ['v1/exchangeInfo']
       klines: ['v1/klines', 'symbol', 'interval', 'startTime', 'endTime', 'limit']
+      list: []
       ping: ['v1/ping']
       ticker: ['v3/ticker/price', 'symbol']
       ticker24: ['v1/ticker/24hr', 'symbol']
