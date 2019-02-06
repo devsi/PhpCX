@@ -1,0 +1,16 @@
+bitstamp:
+  host: 'https://www.bitstamp.net/api'
+  version: 'v2'
+  api:
+    public:
+      agg: []
+      avg: []
+      book: ['order_book', '#currencypair', 'group']
+      bookTicker: []
+      info: ['trading-pairs-info']
+      klines: []
+      ping: []
+      ticker: ['ticker', '#currencypair']
+      ticker24: ['ticker_hour', '#currencypair']
+      time: []
+      trades: ['transactions', '#currencypair', 'time']

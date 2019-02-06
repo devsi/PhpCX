@@ -8,7 +8,7 @@ use GuzzleHttp\Exception\ClientException;
 class Exchange
 {
     /**
-     * Name of exchange
+     * Name of config
      * @var string
      */
     protected $name;
@@ -39,7 +39,7 @@ class Exchange
     const apiboth = 3;
 
     /**
-     * @param string $name Name of exchange.
+     * @param string $name Name of config file.
      */
     public function __construct($name) {
         $this->name = $name;
@@ -80,6 +80,10 @@ class Exchange
      */
     private function host()
     {
+        if (isset($this->definition['version'])) {
+            return sprintf('%s/%s/', $this->definition['host'], $this->definition['version']);
+        }
+
         return sprintf('%s/', $this->definition['host']);
     }
 
@@ -90,15 +94,38 @@ class Exchange
      */
     protected function query($endpoint, $params)
     {
-        //dd($params);
+        $params = $this->params($params);
+        $path = implode('/', $params['path']);
+
         try {
             $http = new Guzzle(['base_uri' => $this->host()]);
-            $response = $http->get($endpoint, ['query' => $params]);
+            $response = $http->get("$endpoint/$path", ['query' => $params['query']]);
         } catch( ClientException $e) {
             return $e->getMessage();
         }
 
         return (string) $response->getBody();
+    }
+
+    /**
+     * Breaks down incoming params into an organised array of slugs/query
+     */
+    protected function params($params)
+    {
+        $organised = ['path' => [], 'query' => []];
+        foreach ($params as $key => $param) {
+            if (\mb_substr($key, 0, 1) === '#') {
+                $newkey = \mb_substr($key, 1, strlen($key));
+                $organised['path'][$newkey] = $param;
+                unset($key);
+            } else {
+                $organised['query'][$key] = $param;
+            }
+        }
+
+        array_multisort($organised);
+
+        return $organised;
     }
 
     /**
